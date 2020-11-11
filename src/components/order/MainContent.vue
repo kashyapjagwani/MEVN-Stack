@@ -14,8 +14,8 @@
       <!-- Cart -->
       <ul class="actions special">
         <li>
-          <router-link to="/order" class="button">
-            Cart (0) 
+          <router-link to="/cart" class="button">
+            Cart ({{getAllItemsInCart.length}}) 
             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
           </router-link>
         </li>
@@ -44,15 +44,22 @@
           ₹ {{item.price}}
         </h4>
         <br>
-        <ul class="actions special">
+        <ul class="actions special" v-if="getItemCountInCart(item.id)<1">
           <li>
-            <div class="button" :class="{'disabled':item.count<1}" @click="removeItem(item.id)">
+            <div class="button" @click="addItemToCart(item.id)">
+              Add to Cart            
+            </div>
+          </li>
+        </ul>
+        <ul class="actions special" v-else>
+          <li>
+            <div class="button" :class="{'disabled':getItemCountInCart(item.id)<1}" @click="removeItem(item.id)">
               <i class="fa fa-minus" aria-hidden="true"></i>            
             </div>
           </li>
           <li>
             <div>
-              {{item.count}}
+              {{getItemCountInCart(item.id)}}
             </div>
           </li>
           <li>
@@ -92,18 +99,46 @@ export default {
     }
   },
   created() {
-    console.log(this.getAllItems)
+    // console.log(this.getAllItems)
+  },
+  watch: {
+    itemsInCart: {
+      handler(newItems, oldItems) {
+        newItems.forEach(item => {
+          if(item.count < 1) {
+            this.removeItemFromCart(item.id)
+          }
+        })
+      }
+    }
   },
   computed: {
     ...mapGetters([
+      'getAllItemsInCart',
       'getAllItems'
     ]),
+    ...mapState({
+      itemsInCart : state => state.cart
+    })
   },
   methods: {
     ...mapActions([
+      'addItemToCart',
+      'removeItemFromCart',
       'addItem',
       'removeItem'
-    ])
+    ]),
+    getItemCountInCart(id) {
+      if(this.getAllItemsInCart.length) {
+        const item = this.getAllItemsInCart.find(item => {
+          return item.id === id
+        })
+        if(item) {
+          return item.count
+        }
+      }
+      return 0
+    }
   }
 }
 </script>

@@ -1,4 +1,17 @@
 const actions = {
+  addItemToCart : (context, id) => {
+    const item = context.state.itemsToShow.find(item => {
+      return item.id === id
+    })
+    item.count = 1
+    context.commit('ADD_ITEM_TO_CART', item)
+  },
+  removeItemFromCart : (context, id) => {
+    const itemIndex = context.state.cart.findIndex(item => {
+      return item.id === id
+    })
+    context.commit('REMOVE_ITEM_FROM_CART', itemIndex)
+  },
   addItem : (context, id) => {
     context.commit('ADD_ITEM', id)
   },
