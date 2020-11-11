@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "cd .. && npm run serve",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "kashyapjagwani@gmail.com",
   "license": "MIT",

@@ -8,9 +8,9 @@
 
 <script>
 // @ is an alias to /src
-import Header from '../components/home/Header'
+import Header from '../components/common/Header'
 import MainContent from '../components/home/MainContent'
-import Footer from '../components/home/Footer'
+import Footer from '../components/common/Footer'
 
 export default {
   name: 'Home',

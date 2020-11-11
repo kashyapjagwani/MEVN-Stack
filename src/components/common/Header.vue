@@ -2,8 +2,10 @@
   <div>
     <!-- Intro -->
     <div id="intro">
-      <h1>This is<br />
-      Massively</h1>
+      <h1>{{titleLineOne}}
+        <br />
+        {{titleLineTwo}}
+      </h1>
       
       <!-- Logo -->
       <!-- <img src="https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-260nw-1048185397.jpg" /> -->
@@ -37,7 +39,16 @@
 
 <script>
 export default {
-
+  props: {
+    titleLineOne: {
+      type: String,
+      default: 'This is'
+    },
+    titleLineTwo: {
+      type: String,
+      default: 'Massively'
+    }
+  },
 }
 </script>
 
