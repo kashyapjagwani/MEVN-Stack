@@ -19,7 +19,10 @@ router.get('/', (req, res) => {
 // @access  Public
 router.post('/', (req, res) => {
   const newOrder = new Order({
-    items: req.body.items
+    items: req.body.items,
+    customer_name: req.body.name,
+    customer_phone: req.body.phone,
+    customer_message: req.body.message
   })
 
   newOrder.save()

@@ -1,13 +1,13 @@
 <template>
   <div id="wrapper" class="fade-in">
-    <Header titleLineOne="Welcome Admin" titleLineTwo="" />
+    <Header titleLineOne="Checkout" titleLineTwo="" />
     <MainContent />
   </div>
 </template>
 
 <script>
 import Header from '../components/common/Header'
-import MainContent from '../components/admin/MainContent'
+import MainContent from '../components/checkout/MainContent'
 
 export default {
   components: {

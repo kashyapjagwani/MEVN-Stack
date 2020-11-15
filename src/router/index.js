@@ -19,6 +19,31 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
   },
   {
+    path: '/admin/menu',
+    name: 'Menu',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminMenu.vue')
+  },
+  {
+    path: '/admin/menu/:id',
+    name: 'ItemDetails',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminMenuItem.vue')
+  },
+  {
+    path: '/admin/add-item',
+    name: 'AddItem',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminAddItem.vue')
+  },
+  {
+    path: '/admin/orders',
+    name: 'Orders',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminOrders.vue')
+  },
+  {
+    path: '/admin/orders/:id',
+    name: 'OrderDetails',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminOrderDetail.vue')
+  },
+  {
     path: '/order',
     name: 'Order',
     component: () => import(/* webpackChunkName: "about" */ '../views/Order.vue')
@@ -27,6 +52,11 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue')
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Checkout.vue')
   }
 ]
 

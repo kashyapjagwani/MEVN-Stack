@@ -1,4 +1,16 @@
+import services from '../services/services'
+
 const actions = {
+
+  fetchAllItems : (context) => {
+    services.fetchAllItemsAPI()
+    .then(response => {
+      console.log(response)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
   addItemToCart : (context, id) => {
     const item = context.state.itemsToShow.find(item => {
       return item.id === id

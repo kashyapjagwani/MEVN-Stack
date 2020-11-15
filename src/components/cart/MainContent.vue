@@ -64,8 +64,8 @@
       </table>
       <ul class="actions special">
         <li>
-          <router-link class="button" to="#">
-            Place Order
+          <router-link class="button" to="/checkout">
+            Checkout
           </router-link>
         </li>
       </ul>

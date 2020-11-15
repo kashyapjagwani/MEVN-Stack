@@ -7,7 +7,7 @@
 
 <script>
 import Header from '../components/common/Header'
-import MainContent from '../components/admin/MainContent'
+import MainContent from '../components/admin/MainContentMenu'
 
 export default {
   components: {
