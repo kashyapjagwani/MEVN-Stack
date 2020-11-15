@@ -32,7 +32,7 @@
             <td>
               <ul class="actions special">
                 <li>
-                  <div class="button small" :class="{'disabled':getItemCountInCart(item._id)<1}" @click="removeItem(item.id)">
+                  <div class="button small" :class="{'disabled':getItemCountInCart(item._id)<1}" @click="removeItem(item._id)">
                     <i class="fa fa-minus" aria-hidden="true"></i>            
                   </div>
                 </li>
@@ -147,7 +147,7 @@ export default {
     getItemCountInCart(id) {
       if(this.getAllItemsInCart.length) {
         const item = this.getAllItemsInCart.find(item => {
-          return item.id === id
+          return item._id === id
         })
         if(item) {
           return item.count
