@@ -14,15 +14,27 @@ router.get('/', (req, res) => {
     })
 })
 
+// @route   GET api/orders/:id
+// @desc    Get one order
+// @access  Public
+router.get('/:id', (req, res) => {
+  Order.findById(req.params.id)
+    .then((item) => {
+      res.json(item)
+    })
+})
+
 // @route   POST api/orders
 // @desc    Create an order
 // @access  Public
 router.post('/', (req, res) => {
   const newOrder = new Order({
-    items: req.body.items,
-    customer_name: req.body.name,
-    customer_phone: req.body.phone,
-    customer_message: req.body.message
+    items: req.body.data.items,
+    customer_name: req.body.data.name,
+    customer_phone: req.body.data.phone,
+    customer_message: req.body.data.message,
+    status: req.body.data.status,
+    total_amount: req.body.data.total_amount
   })
 
   newOrder.save()
@@ -31,6 +43,23 @@ router.post('/', (req, res) => {
     })
     .catch((err) => {
       console.log(err)
+    })
+})
+
+// @route   PATCH api/orders/update/:id
+// @desc    Update an order
+// @access  Public
+router.patch('/update/:id', (req, res) => {
+  Order.updateOne({_id: req.params.id}, {
+    status: req.body.data.status
+  })
+    .then((item) => {
+      res.json(item)
+    })
+    .catch((err) => {
+      res.status(404).json({
+        success: false
+      })
     })
 })
 

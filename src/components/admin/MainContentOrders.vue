@@ -25,14 +25,14 @@
             v-for="(order, index) in getAllOrders"
             :key="index"
             style="cursor: pointer;"
-            @click="showOrder(order.id)"
+            @click="showOrder(order._id)"
           >
             <td>{{order.customer_name}}</td>
             <td>{{order.customer_phone}}</td>
             <td>
               {{totalItemsInOneOrder(order.items)}}
             </td>
-            <td>{{order.total_amount}}</td>
+            <td>₹ {{order.total_amount}}</td>
             <td 
               :class="{
                 'classLive': checkLive(order.status),
@@ -46,19 +46,43 @@
         </tbody>
       </table>
     </div>
+    <Loading :active='isLoading' loader="bars" />
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
+  data() {
+    return {
+      isLoading: false
+    }
+  },
+  created() {
+    this.init()
+  },
   computed: {
     ...mapGetters([
       'getAllOrders'
     ])
   },
   methods: {
+    ...mapActions([
+      'fetchAllOrders'
+    ]),
+    init() {
+      this.isLoading = true
+      this.fetchAllOrders()
+      .then(() => {
+        this.isLoading = false
+        console.log(this.getAllOrders)
+      })
+      .catch((err) => {
+        this.isLoading = false
+        alert(err)
+      })
+    },
     totalItemsInOneOrder(items) {
       let count = 0
       items.forEach(item => {

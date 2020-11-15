@@ -7,6 +7,12 @@ const mutations = {
   SET_ONE_ITEM : (state, payload) => {
     Vue.set(state, 'itemToShow', payload)
   },
+  SET_ALL_ORDERS : (state, payload) => {
+    Vue.set(state, 'ordersToShow', payload)
+  },
+  SET_ONE_ORDER : (state, payload) => {
+    Vue.set(state, 'orderToShow', payload)
+  },
   ADD_ITEM_TO_CART : (state, item) => {
     let cart = state.cart
     cart.push(item)
@@ -19,13 +25,13 @@ const mutations = {
   },
   ADD_ITEM : (state, id) => {
     const item = state.cart.find(item => {
-      return item.id === id
+      return item._id === id
     })
     item.count = item.count + 1
     let cart = state.cart
     cart.splice(
       cart.findIndex(item => {
-        return item.id === id
+        return item._id === id
       }),
       1,
       item
@@ -34,13 +40,13 @@ const mutations = {
   },
   REMOVE_ITEM : (state, id) => {
     const item = state.cart.find(item => {
-      return item.id === id
+      return item._id === id
     })
     item.count = item.count - 1
     let cart = state.cart
     cart.splice(
       cart.findIndex(item => {
-        return item.id === id
+        return item._id === id
       }),
       1,
       item

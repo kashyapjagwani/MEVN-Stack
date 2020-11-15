@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   data() {
@@ -44,8 +44,18 @@ export default {
     ...mapGetters([
       'getAllItemsInCart',
     ]),
+    getTotalAmount() {
+      let total = 0
+      this.getAllItemsInCart.forEach(item => {
+        total = total + (item.count * item.price)
+      })
+      return total
+    }
   },
   methods: {
+    ...mapActions([
+      'postOneOrder'
+    ]),
     placeOrder() {
       if(!this.name) {
         this.$notify({
@@ -77,9 +87,12 @@ export default {
           name: this.name,
           phone: this.phone,
           message: this.message,
-          items: this.getAllItemsInCart
+          items: this.getAllItemsInCart,
+          status: 'Live',
+          total_amount: this.getTotalAmount
         }
-        setTimeout(() => {
+        this.postOneOrder(payload)
+        .then(() => {
           this.isLoading = false
           this.$router.push({
             name: 'Home'
@@ -90,7 +103,11 @@ export default {
             text: 'We will contact you shortly.',
             type: 'success',
           });
-        }, 3000);
+        })
+        .catch((err) => {
+          this.isLoading = false
+          alert(err)
+        })
       }
     },
   }

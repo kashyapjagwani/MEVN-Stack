@@ -18,7 +18,7 @@
           Cancel 
         </div>
       </li>
-      <li>
+      <li @click="deleteItem">
         <div class="button" v-if="!isEditable">
           Delete 
         </div>
@@ -80,7 +80,8 @@ export default {
   methods: {
     ...mapActions([
       'fetchOneItem',
-      'updateOneItem'
+      'updateOneItem',
+      'deleteOneItem'
     ]),
     init() {
       this.isLoading = true
@@ -122,6 +123,21 @@ export default {
           alert(err)
         })
       }
+    },
+    deleteItem() {
+      console.log('hi')
+      this.isLoading = true
+      this.deleteOneItem(this.$route.params.id)
+      .then(() => {
+        this.isLoading = false
+        this.$router.push({
+          name: 'Menu'
+        })
+      })
+      .catch((err) => {
+        this.isLoading = false
+        alert(err)
+      })
     },
     toggleEdit() {
       this.isEditable = !this.isEditable

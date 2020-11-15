@@ -44,26 +44,26 @@
           ₹ {{item.price}}
         </h4>
         <br>
-        <ul class="actions special" v-if="getItemCountInCart(item.id)<1">
+        <ul class="actions special" v-if="getItemCountInCart(item._id)<1">
           <li>
-            <div class="button" @click="addItemToCart(item.id)">
+            <div class="button" @click="addItemToCart(item._id)">
               Add to Cart            
             </div>
           </li>
         </ul>
         <ul class="actions special" v-else>
           <li>
-            <div class="button" :class="{'disabled':getItemCountInCart(item.id)<1}" @click="removeItem(item.id)">
+            <div class="button" :class="{'disabled':getItemCountInCart(item._id)<1}" @click="removeItem(item._id)">
               <i class="fa fa-minus" aria-hidden="true"></i>            
             </div>
           </li>
           <li>
             <div>
-              {{getItemCountInCart(item.id)}}
+              {{getItemCountInCart(item._id)}}
             </div>
           </li>
           <li>
-            <div class="button" @click="addItem(item.id)">
+            <div class="button" @click="addItem(item._id)">
               <i class="fa fa-plus" aria-hidden="true"></i>            
             </div>
           </li>
@@ -85,7 +85,7 @@
         <a href="#" class="next">Next</a>
       </div> -->
     </footer>
-
+    <Loading :active='isLoading' loader="bars" />
   </div>
 </template>
 
@@ -95,18 +95,18 @@ import {mapGetters, mapActions, mapMutations, mapState} from 'vuex'
 export default {
   data() {
     return {
-  
+      isLoading: false
     }
   },
   created() {
-    // console.log(this.getAllItems)
-  },
+    this.init()
+},
   watch: {
     itemsInCart: {
       handler(newItems, oldItems) {
         newItems.forEach(item => {
           if(item.count < 1) {
-            this.removeItemFromCart(item.id)
+            this.removeItemFromCart(item._id)
           }
         })
       }
@@ -126,12 +126,24 @@ export default {
       'addItemToCart',
       'removeItemFromCart',
       'addItem',
-      'removeItem'
+      'removeItem',
+      'fetchAllItems'
     ]),
+    init() {
+      this.isLoading = true
+      this.fetchAllItems()
+      .then(() => {
+        this.isLoading = false
+      })
+      .catch((err) => {
+        this.isLoading = false
+        alert(err)
+      })
+    },
     getItemCountInCart(id) {
       if(this.getAllItemsInCart.length) {
         const item = this.getAllItemsInCart.find(item => {
-          return item.id === id
+          return item._id === id
         })
         if(item) {
           return item.count

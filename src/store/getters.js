@@ -9,10 +9,10 @@ const getters = {
     return state.itemToShow;
   },
   getAllOrders: (state) => {
-    return state.orders
+    return state.ordersToShow.reverse()
   },
   getOneOrder: (state) => {
-    return state.orders[0]
+    return state.orderToShow
   }
 }
 

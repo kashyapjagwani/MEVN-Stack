@@ -57,7 +57,7 @@
               <b>Total Amount</b>
             </td>
             <td>
-              <b>₹ {{getTotalAmount}}.00</b>
+              <b>₹{{getTotalAmount}}.00</b>
             </td>
           </tr>
         </tfoot>
