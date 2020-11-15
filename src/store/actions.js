@@ -3,12 +3,49 @@ import services from '../services/services'
 const actions = {
 
   fetchAllItems : (context) => {
-    services.fetchAllItemsAPI()
-    .then(response => {
-      console.log(response)
+    return new Promise((resolve, reject) => {
+      services.fetchAllItemsAPI()
+      .then(response => {
+        context.commit('SET_ALL_ITEMS', response.data)
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
     })
-    .catch(err => {
-      console.log(err)
+  },
+  fetchOneItem : (context, id) => {
+    return new Promise((resolve, reject) => {
+      services.fetchOneItemAPI(id)
+      .then(response => {
+        context.commit('SET_ONE_ITEM', response.data)
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+  },
+  updateOneItem : (context, payload) => {
+    return new Promise((resolve, reject) => {
+      services.updateOneItemAPI(payload.id, payload.data)
+      .then(() => {
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+  },
+  addAnItem : (context, payload) => {
+    return new Promise((resolve, reject) => {
+      services.addAnItemAPI(payload)
+      .then(() => {
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
     })
   },
   addItemToCart : (context, id) => {

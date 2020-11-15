@@ -28,52 +28,106 @@
       <div class="fields">
         <div class="field">
           <label for="name">Name *</label>
-          <input v-model="name" placeholder="Enter the name" type="text" />
+          <input v-model="editItem.name" placeholder="Enter the name" type="text" />
         </div>
         <div class="field">
           <label for="price">Price *</label>
-          <input v-model="price" placeholder="Enter the price" type="number" min="0" max="9999999999" />
+          <input v-model.number="editItem.price" placeholder="Enter the price" type="number" min="0" max="9999999999" />
         </div>
         <div class="field">
           <label for="description">Description *</label>
-          <textarea placeholder="Enter the description" v-model="description" rows="3"></textarea>
+          <textarea placeholder="Enter the description" v-model="editItem.description" rows="3"></textarea>
         </div>
       </div>
       <ul class="actions">
         <li>
-          <div class="button" @click="placeOrder">
-            Add Item
+          <div class="button" @click="updateItem">
+            Save
           </div>
         </li>
       </ul>
     </form>
 
-    <div v-else>
-      <h2>Name: Cake</h2>
-      <h2>Price: ₹ 100</h2>
-      <h2>Description:</h2>
-      <i>Choclate cake</i>
+    <div v-else-if="getOneItem">
+      <h2 style="text-transform: none;">Name: {{getOneItem.name}}</h2>
+      <h2 style="text-transform: none;">Price: ₹ {{getOneItem.price}}</h2>
+      <h2 style="text-transform: none;">Description:</h2>
+      <i>{{getOneItem.description}}</i>
     </div>
     <Loading :active='isLoading' loader="bars" />
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   data() {
     return {
-      name: '',
-      price: null,
-      description: '',
-      isLoading: false,
-      isEditable: false
+      isLoading: true,
+      isEditable: false,
+      editItem: {}
     }
   },
+  created() {
+    this.init()
+  },
+  computed: {
+    ...mapGetters([
+      'getOneItem'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'fetchOneItem',
+      'updateOneItem'
+    ]),
+    init() {
+      this.isLoading = true
+      this.fetchOneItem(this.$route.params.id)
+      .then(() => {
+        this.isLoading = false
+      })
+      .catch(err => {
+        this.isLoading = false
+        alert(err)
+      })
+    },
+    updateItem() {
+      if(!(this.editItem.name !== '' && this.editItem.price !== '' && this.editItem.description !== '')) {
+        this.$notify({
+          group: 'foo',
+          title: 'Invalid Information',
+          text: 'Please enter all the details',
+          type: 'error',
+        });
+      }
+      else {
+        this.isLoading = true
+        let payload = {
+          id: this.$route.params.id,
+          data: this.editItem
+        }
+        Promise.all([
+          this.updateOneItem(payload),
+          this.fetchOneItem(this.$route.params.id)
+        ])
+        .then(() => {
+          this.isLoading = false
+          this.isEditable = false
+        })
+        .catch((err) => {
+          this.isLoading = false
+          this.isEditable = false
+          alert(err)
+        })
+      }
+    },
     toggleEdit() {
       this.isEditable = !this.isEditable
+      if(this.isEditable && this.getOneItem) {
+        Object.assign(this.editItem, this.getOneItem)
+      }
     }
   }
 }

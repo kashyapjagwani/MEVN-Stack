@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   data() {
@@ -41,6 +41,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'addAnItem'
+    ]),
     placeOrder() {
       if(!this.name) {
         this.$notify({
@@ -73,18 +76,23 @@ export default {
           price: this.price,
           description: this.description,
         }
-        setTimeout(() => {
+        this.addAnItem(payload)
+        .then(() => {
           this.isLoading = false
           this.$router.push({
-            name: 'Home'
+            name: 'Menu'
           })
           this.$notify({
             group: 'foo',
             title: 'Yaay! The item has been added to your menu',
-            text: 'You can now check it out in the menu',
+            text: 'Customers can now check it out in the menu',
             type: 'success',
           });
-        }, 3000);
+        })
+        .catch((err) => {
+          this.isLoading = false
+          alert(err)
+        })
       }
     },
   }

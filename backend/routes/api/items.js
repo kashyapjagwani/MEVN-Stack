@@ -14,14 +14,24 @@ router.get('/', (req, res) => {
     })
 })
 
+// @route   GET api/items/:id
+// @desc    Get one item
+// @access  Public
+router.get('/:id', (req, res) => {
+  Item.findById(req.params.id)
+    .then((item) => {
+      res.json(item)
+    })
+})
+
 // @route   POST api/items
 // @desc    Create an item
 // @access  Public
 router.post('/', (req, res) => {
   const newItem = new Item({
-    name: req.body.name,
-    price: req.body.price,
-    description: req.body.description,
+    name: req.body.data.name,
+    price: req.body.data.price,
+    description: req.body.data.description,
   })
 
   newItem.save()
@@ -57,10 +67,11 @@ router.delete('/delete/:id', (req, res) => {
 // @desc    Update an item
 // @access  Public
 router.patch('/update/:id', (req, res) => {
+  console.log(req)
   Item.updateOne({_id: req.params.id}, {
-    name: req.body.name,
-    price: req.body.price,
-    description: req.body.description
+    name: req.body.data.name,
+    price: req.body.data.price,
+    description: req.body.data.description
   })
     .then((item) => {
       res.json(item)

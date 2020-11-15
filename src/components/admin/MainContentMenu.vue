@@ -8,6 +8,13 @@
       </header>
     </article> 
 
+    <article class="post featured" v-else>
+      <header class="major">
+        <h2>No Items in your menu</h2>
+      </header>
+      <i>Start by adding a few items now</i>
+    </article> 
+
     <ul class="actions special">
       <li>
         <router-link to="/admin/add-item" class="button">
@@ -17,7 +24,7 @@
     </ul>
 
     <!-- Items Table -->
-    <div class="table-wrapper" v-if="getAllItems.length > 0">
+    <div class="table-wrapper" v-if="getAllItems.length > 0 && !isLoading">
       <table>
         <thead>
           <tr>
@@ -30,14 +37,15 @@
             v-for="(item, index) in getAllItems"
             :key="index"
             style="cursor: pointer;"
-            @click="showItem(item.id)"
+            @click="showItem(item._id)"
           >
             <td>{{item.name}}</td>
-            <td>{{item.price}}</td>
+            <td>₹ {{item.price}}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <Loading :active='isLoading' loader="bars" />
   </div>
 </template>
 
@@ -45,8 +53,13 @@
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
+  data() {
+    return {
+      isLoading: false
+    }
+  },
   created() {
-    console.log(this.fetchAllItems())
+    this.init()
   },
   computed: {
     ...mapGetters([
@@ -57,6 +70,17 @@ export default {
     ...mapActions([
       'fetchAllItems'
     ]),
+    init() {
+      this.isLoading = true
+      this.fetchAllItems()
+      .then(() => {
+        this.isLoading = false
+      })
+      .catch((err) => {
+        this.isLoading = false
+        alert(err)
+      })
+    },
     showItem(id) {
       this.$router.push({
         name: 'ItemDetails',

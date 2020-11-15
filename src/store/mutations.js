@@ -1,6 +1,12 @@
 import Vue from 'vue'
 
 const mutations = {
+  SET_ALL_ITEMS : (state, payload) => {
+    Vue.set(state, 'itemsToShow', payload)
+  },
+  SET_ONE_ITEM : (state, payload) => {
+    Vue.set(state, 'itemToShow', payload)
+  },
   ADD_ITEM_TO_CART : (state, item) => {
     let cart = state.cart
     cart.push(item)

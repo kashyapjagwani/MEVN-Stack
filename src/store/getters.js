@@ -5,6 +5,9 @@ const getters = {
   getAllItems : (state) => {
     return state.itemsToShow;
   },
+  getOneItem : (state) => {
+    return state.itemToShow;
+  },
   getAllOrders: (state) => {
     return state.orders
   },
