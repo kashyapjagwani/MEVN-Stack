@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path')
 
 const items = require('./routes/api/items');
 const orders = require('./routes/api/orders');
@@ -32,6 +33,15 @@ app.use('/api/orders', orders)
 // PORT
 const port = process.env.PORT || 5000;
 
+// Serve static assets if in production
+if(process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('../dist'))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve('..', 'dist', 'index.html'))
+  })
+}
 app.listen(port, () => {
   console.log(`Server started on ${port}`)
 });
