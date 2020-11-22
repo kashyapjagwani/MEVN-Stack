@@ -2,7 +2,9 @@
   <!-- Footer -->
   <footer id="footer">
     <section>
-      <form method="post" action="#">
+      <h3>Sparkling Sugar</h3>
+      <p>All rights reserved.</p>
+      <!-- <form method="post" action="#">
         <div class="fields">
           <div class="field">
             <label for="name">Name</label>
@@ -20,9 +22,9 @@
         <ul class="actions">
           <li><input type="submit" value="Send Message" /></li>
         </ul>
-      </form>
+      </form> -->
     </section>
-    <section class="split contact">
+    <!-- <section class="split contact">
       <section class="alt">
         <h3>Address</h3>
         <p>1234 Somewhere Road #87257<br />
@@ -45,7 +47,7 @@
           <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
         </ul>
       </section>
-    </section>
+    </section> -->
   </footer>
 </template>
 

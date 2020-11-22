@@ -24,6 +24,8 @@
         </li>
       </ul>
     </form>
+    <footer>
+    </footer>
     <Loading :active='isLoading' loader="bars" />
   </div>
 </template>

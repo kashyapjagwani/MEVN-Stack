@@ -54,6 +54,8 @@
       <h2 style="text-transform: none;">Description:</h2>
       <i>{{getOneItem.description}}</i>
     </div>
+    <footer>
+    </footer>
     <Loading :active='isLoading' loader="bars" />
   </div>
 </template>

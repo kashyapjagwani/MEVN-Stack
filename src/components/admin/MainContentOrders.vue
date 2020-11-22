@@ -46,6 +46,12 @@
         </tbody>
       </table>
     </div>
+    <article class="post featured" v-else>
+      <header class="major">
+        <h2>No Orders yet</h2>
+      </header>
+      <i>You'll see all your orders here once they are placed.</i>
+    </article> 
     <Loading :active='isLoading' loader="bars" />
   </div>
 </template>
